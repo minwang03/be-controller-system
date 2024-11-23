@@ -1,4 +1,4 @@
-export const companiesData = [
+const companiesData = [
     {
       id: 1,
       name: "Công ty A",
@@ -190,4 +190,4 @@ export const companiesData = [
       status: "Active",
     },
   ];
-  
+module.exports = { companiesData };
