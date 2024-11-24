@@ -4,9 +4,9 @@ const companyService = require('../services/companyService');
 const getAllCompanies = async (req, res) => {
   try {
     const companies = await companyService.fetchCompanies();
-    res.status(200).json({ success: true, data: companies });
+    res.status(200).json({  data: companies });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 

@@ -16,7 +16,7 @@ connectDB();
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
-app.use('/company', companyRouter);
+app.use('/api', companyRouter);
 
 app.use((req, res) => {
     res.status(404).json({ message: 'Không tìm thấy tài nguyên' });
