@@ -1,6 +1,5 @@
 const companyService = require('../services/companyService');
 
-// Lấy danh sách công ty
 const getAllCompanies = async (req, res) => {
   try {
     const companies = await companyService.fetchCompanies();
@@ -10,7 +9,4 @@ const getAllCompanies = async (req, res) => {
   }
 };
 
-
-module.exports = {
-  getAllCompanies,
-};
+module.exports = {getAllCompanies,};
