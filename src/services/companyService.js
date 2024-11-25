@@ -9,6 +9,10 @@ const findCompanyById = (id) => {
     return company;
 };
 
-module.exports = {
-  fetchCompanies, findCompanyById
+const searchCompanies = async (name) => { 
+  const query = new RegExp(name, 'i');
+  const result = companies.companiesData.filter(company => company.name.match(query));
+  return result;
 };
+
+module.exports = {fetchCompanies, findCompanyById,searchCompanies};

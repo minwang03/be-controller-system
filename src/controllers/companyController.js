@@ -19,4 +19,15 @@ const getCompanyById = async (req, res) => {
   }
 };
 
-module.exports = { getAllCompanies, getCompanyById };
+const searchCompanies = async (req, res) => {
+  const { name } = req.query;
+  try {
+    const companies = await companyService.searchCompanies(name);
+    res.status(200).json({ data: companies });
+  } catch (err) {
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+
+module.exports = { getAllCompanies, getCompanyById, searchCompanies };
