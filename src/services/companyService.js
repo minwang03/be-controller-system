@@ -1,7 +1,7 @@
 let companies = require('../database/Company');
 
 const fetchCompanies = () => {
-  return companies;
+  return companies.companiesData;
 };
 
 const findCompanyById = (id) => {
