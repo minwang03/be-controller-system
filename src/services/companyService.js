@@ -16,6 +16,8 @@ const searchCompanies = async (name) => {
 };
 
 const addCompany = (newCompany) => {
+  const maxId = companies.companiesData.reduce((max, company) => Math.max(max, company.id), 0);
+  newCompany.id = maxId + 1;
   companies.companiesData.push(newCompany);
   saveCompaniesData();
 };
