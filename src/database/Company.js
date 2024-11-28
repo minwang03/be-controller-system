@@ -1,48 +1,7 @@
 module.exports = { companiesData: [
   {
-    "id": 1,
-    "name": "Công ty Vận tải Quốc tế A",
-    "employees": 40,
-    "drivers": 20,
-    "vehicles": 50,
-    "trips": 120,
-    "ticketsSold": 350,
-    "revenue": [
-      30000000,
-      50000000,
-      40000000,
-      60000000,
-      70000000,
-      90000000,
-      100000000,
-      85000000,
-      75000000,
-      95000000,
-      110000000,
-      100000000
-    ],
-    "vehicleTrips": [
-      {
-        "vehicleName": "Xe A",
-        "tripCount": 89
-      },
-      {
-        "vehicleName": "Xe B",
-        "tripCount": 150
-      },
-      {
-        "vehicleName": "Xe C",
-        "tripCount": 500
-      }
-    ],
-    "phone": "0123456789",
-    "address": "Số 1, Đường A, Thành phố X",
-    "createdAt": "2023-01-01",
-    "status": "Active"
-  },
-  {
     "id": 2,
-    "name": "Công ty Dịch vụ Vận chuyển B",
+    "name": "Công ty Dịch vụ Vận chuyển A",
     "employees": 35,
     "drivers": 15,
     "vehicles": 40,
