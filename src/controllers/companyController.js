@@ -29,5 +29,29 @@ const searchCompanies = async (req, res) => {
   }
 };
 
+const createCompany = (req, res) => {
+  const newCompany = req.body;
+  companyService.addCompany(newCompany);
+  res.status(201).json({ message: 'Công ty đã được thêm' });
+};
 
-module.exports = { getAllCompanies, getCompanyById, searchCompanies };
+const removeCompany = (req, res) => {
+  const success = companyService.deleteCompany(req.params.id);
+  if (success) {
+    res.json({ message: 'Công ty đã được xóa' });
+  } else {
+    res.status(404).json({ message: 'Công ty không tồn tại' });
+  }
+};
+
+const editCompany = (req, res) => {
+  const updatedData = req.body;
+  const success = companyService.updateCompany(req.params.id, updatedData);
+  if (success) {
+    res.json({ message: 'Công ty đã được cập nhật' });
+  } else {
+    res.status(404).json({ message: 'Công ty không tồn tại' });
+  }
+};
+
+module.exports = { getAllCompanies, getCompanyById, searchCompanies, createCompany, removeCompany, editCompany };
