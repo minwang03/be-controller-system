@@ -780,25 +780,18 @@ module.exports = { companiesData: [
   },
   {
     "name": "New Company",
-    "employees": 150,
-    "drivers": 50,
-    "vehicles": 25,
-    "trips": 100,
-    "ticketsSold": 500,
-    "revenue": [
-      30000,
-      40000
-    ],
-    "vehicleTrips": [
-      {
-        "vehicleName": "Vehicle X",
-        "tripCount": 45
-      }
-    ],
     "phone": "123456789",
     "address": "123 Street, City, Country",
     "createdAt": "2024-12-01",
     "status": "Active",
     "id": 21
+  },
+  {
+    "name": "New Company 2",
+    "phone": "123456789",
+    "address": "123 Street, City, Country",
+    "createdAt": "2024-12-01",
+    "status": "Active",
+    "id": 22
   }
 ] };
