@@ -694,7 +694,7 @@ module.exports = { companiesData: [
     "phone": "0123457022",
     "address": "Số 19, Đường S, Thành phố T",
     "createdAt": "2023-08-25",
-    "status": "Inactive"
+    "status": "Active"
   },
   {
     "id": 20,
@@ -758,10 +758,10 @@ module.exports = { companiesData: [
       0
     ],
     "vehicleTrips": [],
-    "status": "Inactive",
+    "status": "Active",
     "name": "Công ty Dịch vụ Vận chuyển B",
     "phone": "0982460509",
-    "address": "Số 1, Đường B, Thành phố B",
+    "address": "Số 1, Đường B, Thành phố C",
     "id": 22,
     "createdAt": "2024-12-01"
   }
