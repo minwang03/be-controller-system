@@ -325,7 +325,7 @@ module.exports = { companiesData: [
     "phone": "0123456933",
     "address": "Số 10, Đường J, Thành phố K",
     "createdAt": "2023-03-14",
-    "status": "Inactive"
+    "status": "Active"
   },
   {
     "id": 11,
@@ -610,9 +610,9 @@ module.exports = { companiesData: [
       }
     ],
     "phone": "0123457000",
-    "address": "Số 17, Đường Q, Thành phố R",
+    "address": "Số 17, Đường B, Thành phố G",
     "createdAt": "2023-05-30",
-    "status": "Inactive"
+    "status": "Active"
   },
   {
     "id": 18,
@@ -694,7 +694,7 @@ module.exports = { companiesData: [
     "phone": "0123457022",
     "address": "Số 19, Đường S, Thành phố T",
     "createdAt": "2023-08-25",
-    "status": "Active"
+    "status": "Inactive"
   },
   {
     "id": 20,
@@ -738,11 +738,31 @@ module.exports = { companiesData: [
     "status": "Inactive"
   },
   {
+    "employees": 0,
+    "drivers": 0,
+    "vehicles": 0,
+    "trips": 0,
+    "ticketsSold": 0,
+    "revenue": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "vehicleTrips": [],
+    "status": "Inactive",
     "name": "Công ty Dịch vụ Vận chuyển B",
-    "phone": "0982460505",
-    "address": "Số 1, Đường B, Thành phố A",
-    "id": 21,
-    "createdAt": "2024-12-01",
-    "status": "Inactive"
+    "phone": "0982460509",
+    "address": "Số 1, Đường B, Thành phố B",
+    "id": 22,
+    "createdAt": "2024-12-01"
   }
 ] };

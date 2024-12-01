@@ -16,12 +16,22 @@ const searchCompanies = async (name) => {
 };
 
 const addCompany = (newCompany) => {
-  const maxId = companies.companiesData.reduce((max, company) => Math.max(max, company.id), 0);
-  newCompany.id = maxId + 1;
-  const today = new Date();
-  newCompany.createdAt = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`;
-  newCompany.status = 'Active';
-  companies.companiesData.push(newCompany);
+  const maxId = Math.max(0, ...companies.companiesData.map((company) => company.id));
+  const today = new Date().toISOString().split('T')[0];
+  const fullNewCompany = {
+    employees: 0,
+    drivers: 0,
+    vehicles: 0,
+    trips: 0,
+    ticketsSold: 0,
+    revenue: Array(12).fill(0),
+    vehicleTrips: [],
+    status: 'Active',
+    ...newCompany,
+    id: maxId + 1,
+    createdAt: today,
+  };
+  companies.companiesData.push(fullNewCompany);
   saveCompaniesData();
 };
 
