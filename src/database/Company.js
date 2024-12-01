@@ -38,7 +38,7 @@ module.exports = { companiesData: [
     "phone": "0123456790",
     "address": "Số 2, Đường B, Thành phố Y",
     "createdAt": "2023-02-15",
-    "status": "Inactive"
+    "status": "Active"
   },
   {
     "id": 3,
@@ -282,9 +282,9 @@ module.exports = { companiesData: [
       }
     ],
     "phone": "0123456911",
-    "address": "Số 8, Đường H, Thành phố I",
+    "address": "Số 8, Đường T, Thành phố N",
     "createdAt": "2023-04-05",
-    "status": "Active"
+    "status": "Inactive"
   },
   {
     "id": 9,
@@ -407,7 +407,7 @@ module.exports = { companiesData: [
     "phone": "0123456944",
     "address": "Số 11, Đường K, Thành phố L",
     "createdAt": "2023-07-11",
-    "status": "Active"
+    "status": "Inactive"
   },
   {
     "id": 12,
@@ -653,7 +653,7 @@ module.exports = { companiesData: [
     "phone": "0123457000",
     "address": "Số 17, Đường Q, Thành phố R",
     "createdAt": "2023-05-30",
-    "status": "Active"
+    "status": "Inactive"
   },
   {
     "id": 18,
@@ -692,13 +692,13 @@ module.exports = { companiesData: [
       }
     ],
     "phone": "0123457011",
-    "address": "Số 18, Đường R, Thành phố S",
+    "address": "Số 18, Đường M, Thành phố T",
     "createdAt": "2023-03-25",
-    "status": "Inactive"
+    "status": "Active"
   },
   {
     "id": 19,
-    "name": "Công ty Giao nhận và Vận chuyển Tỉnh L",
+    "name": "Công ty Giao nhận và Vận chuyển Tỉnh ",
     "employees": 30,
     "drivers": 18,
     "vehicles": 50,
@@ -777,21 +777,5 @@ module.exports = { companiesData: [
     "address": "Số 20, Đường T, Thành phố U",
     "createdAt": "2023-06-18",
     "status": "Inactive"
-  },
-  {
-    "name": "New Company",
-    "phone": "123456789",
-    "address": "123 Street, City, Country",
-    "createdAt": "2024-12-01",
-    "status": "Active",
-    "id": 21
-  },
-  {
-    "name": "New Company 2",
-    "phone": "123456789",
-    "address": "123 Street, City, Country",
-    "createdAt": "2024-12-01",
-    "status": "Active",
-    "id": 22
   }
 ] };
