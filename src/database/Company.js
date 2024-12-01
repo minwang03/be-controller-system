@@ -123,47 +123,6 @@ module.exports = { companiesData: [
     "status": "Active"
   },
   {
-    "id": 5,
-    "name": "Công ty Vận tải Đường dài E",
-    "employees": 60,
-    "drivers": 30,
-    "vehicles": 80,
-    "trips": 200,
-    "ticketsSold": 500,
-    "revenue": [
-      50000000,
-      70000000,
-      60000000,
-      80000000,
-      90000000,
-      120000000,
-      130000000,
-      105000000,
-      95000000,
-      110000000,
-      125000000,
-      140000000
-    ],
-    "vehicleTrips": [
-      {
-        "vehicleName": "Xe S",
-        "tripCount": 150
-      },
-      {
-        "vehicleName": "Xe T",
-        "tripCount": 300
-      },
-      {
-        "vehicleName": "Xe U",
-        "tripCount": 450
-      }
-    ],
-    "phone": "0123456822",
-    "address": "Số 5, Đường E, Thành phố B",
-    "createdAt": "2023-12-25",
-    "status": "Inactive"
-  },
-  {
     "id": 6,
     "name": "Công ty Du lịch và Vận chuyển F",
     "employees": 20,
@@ -446,7 +405,7 @@ module.exports = { companiesData: [
       }
     ],
     "phone": "0123456955",
-    "address": "Số 12, Đường L, Thành phố M",
+    "address": "Số 12, Đường T, Thành phố B",
     "createdAt": "2023-08-01",
     "status": "Inactive"
   },
@@ -776,6 +735,14 @@ module.exports = { companiesData: [
     "phone": "0123457033",
     "address": "Số 20, Đường T, Thành phố U",
     "createdAt": "2023-06-18",
+    "status": "Inactive"
+  },
+  {
+    "name": "Công ty Dịch vụ Vận chuyển B",
+    "phone": "0982460505",
+    "address": "Số 1, Đường B, Thành phố A",
+    "id": 21,
+    "createdAt": "2024-12-01",
     "status": "Inactive"
   }
 ] };

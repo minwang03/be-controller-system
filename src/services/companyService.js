@@ -18,6 +18,9 @@ const searchCompanies = async (name) => {
 const addCompany = (newCompany) => {
   const maxId = companies.companiesData.reduce((max, company) => Math.max(max, company.id), 0);
   newCompany.id = maxId + 1;
+  const today = new Date();
+  newCompany.createdAt = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`;
+  newCompany.status = 'Active';
   companies.companiesData.push(newCompany);
   saveCompaniesData();
 };
