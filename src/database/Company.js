@@ -36,9 +36,9 @@ module.exports = { companiesData: [
       }
     ],
     "phone": "0123456790",
-    "address": "Số 2, Đường B, Thành phố Y",
+    "address": "Số 2, Đường B, Thành phố A",
     "createdAt": "2023-02-15",
-    "status": "Active"
+    "status": "Inactive"
   },
   {
     "id": 3,
@@ -76,10 +76,10 @@ module.exports = { companiesData: [
         "tripCount": 300
       }
     ],
-    "phone": "0123456800",
-    "address": "Số 3, Đường C, Thành phố Z",
+    "phone": "0123456803",
+    "address": "Số 3, Đường C, Thành phố C",
     "createdAt": "2023-01-20",
-    "status": "Active"
+    "status": "Inactive"
   },
   {
     "id": 4,
@@ -161,7 +161,7 @@ module.exports = { companiesData: [
     "phone": "0123456833",
     "address": "Số 6, Đường F, Thành phố C",
     "createdAt": "2023-06-12",
-    "status": "Active"
+    "status": "Inactive"
   },
   {
     "id": 7,
@@ -206,7 +206,7 @@ module.exports = { companiesData: [
   },
   {
     "id": 8,
-    "name": "Công ty Đường bộ Tây Nam",
+    "name": "Công ty Đường bộ Tây Nam ",
     "employees": 50,
     "drivers": 28,
     "vehicles": 70,
@@ -240,10 +240,10 @@ module.exports = { companiesData: [
         "tripCount": 400
       }
     ],
-    "phone": "0123456911",
+    "phone": "01234561234",
     "address": "Số 8, Đường T, Thành phố N",
     "createdAt": "2023-04-05",
-    "status": "Inactive"
+    "status": "Active"
   },
   {
     "id": 9,
@@ -764,5 +764,33 @@ module.exports = { companiesData: [
     "address": "Số 1, Đường B, Thành phố C",
     "id": 22,
     "createdAt": "2024-12-01"
+  },
+  {
+    "employees": 0,
+    "drivers": 0,
+    "vehicles": 0,
+    "trips": 0,
+    "ticketsSold": 0,
+    "revenue": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "vehicleTrips": [],
+    "status": "Inactive",
+    "name": "Công ty Dịch vụ Vận chuyển Beta Group",
+    "phone": "0982460505",
+    "address": "Số 2, Đường B, Thành phố G",
+    "id": 23,
+    "createdAt": "2024-12-02"
   }
 ] };
