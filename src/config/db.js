@@ -2,15 +2,11 @@ require('dotenv').config();
 const { Pool } = require('pg');
 
 const pool = new Pool({
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT || 5432,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    ssl: {
-        require: true,
-        rejectUnauthorized: false,
-    },
+  user: process.env.DB_USER || 'postgres',
+  host: process.env.DB_HOST || 'localhost',
+  database: process.env.DB_NAME || 'postgres',
+  password: process.env.DB_PASSWORD || 'your_password', // Kiểm tra biến này
+  port: process.env.DB_PORT || 5432,
 });
 
 const connectDB = async () => {
