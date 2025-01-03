@@ -79,7 +79,7 @@ module.exports = { companiesData: [
     "phone": "0123456803",
     "address": "Số 3, Đường C, Thành phố C",
     "createdAt": "2023-01-20",
-    "status": "Inactive"
+    "status": "Active"
   },
   {
     "id": 4,
@@ -569,7 +569,7 @@ module.exports = { companiesData: [
       }
     ],
     "phone": "0123456999",
-    "address": "Số 16, Đường P, Thành phố Q",
+    "address": "Số 16, Đường B, Thành phố N",
     "createdAt": "2023-08-20",
     "status": "Active"
   },
