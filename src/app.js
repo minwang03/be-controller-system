@@ -4,7 +4,7 @@ const { connectDB } = require('./config/db');
 const cors = require('cors');
 dotenv.config();
 
-const companyRouter = require('./routes/companyRouter');
+const userRouter = require('./routes/userRouter');
 
 const app = express();
 
@@ -16,7 +16,7 @@ connectDB();
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
-app.use('/api', companyRouter);
+app.use('/api', userRouter);
 
 app.use((req, res) => {
     res.status(404).json({ message: 'Không tìm thấy tài nguyên' });
