@@ -5,6 +5,7 @@ const cors = require('cors');
 dotenv.config();
 
 const userRouter = require('./routes/userRouter');
+const productRouter =require('./routes/productRouter')
 
 const app = express();
 
@@ -16,7 +17,9 @@ connectDB();
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
+
 app.use('/api', userRouter);
+app.use('/api', productRouter);
 
 app.use((req, res) => {
     res.status(404).json({ message: 'Không tìm thấy tài nguyên' });
