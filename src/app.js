@@ -6,6 +6,7 @@ dotenv.config();
 
 const userRouter = require('./routes/userRouter');
 const productRouter =require('./routes/productRouter')
+const categoryRouter =require('./routes/categoryRouter')
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.get('/', (req, res) => {
 
 app.use('/api', userRouter);
 app.use('/api', productRouter);
+app.use('/api', categoryRouter);
 
 app.use((req, res) => {
     res.status(404).json({ message: 'Không tìm thấy tài nguyên' });
