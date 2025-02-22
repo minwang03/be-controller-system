@@ -12,4 +12,16 @@ const addUser = async (userData) => {
   }
 };
 
-module.exports = { addUser };
+const getUserByEmailAndPassword = async (email, password) => {
+  try {
+    const [rows] = await pool.query(
+      'SELECT * FROM users WHERE email = ? AND password = ?',
+      [email, password]
+    );
+    return rows[0]; // Lấy user đầu tiên nếu có
+  } catch (error) {
+    throw new Error('Không thể tìm người dùng: ' + error.message);
+  }
+};
+
+module.exports = { addUser,getUserByEmailAndPassword };
