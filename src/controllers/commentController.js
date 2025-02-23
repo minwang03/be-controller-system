@@ -15,7 +15,7 @@ const getCommentsByProductController = async (req, res) => {
     const { product_id } = req.params;
     try {
         const comments = await commentService.getCommentsByProduct(product_id);
-        res.status(200).json(comments);
+        res.json({success: true, data: comments});
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

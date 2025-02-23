@@ -14,11 +14,18 @@ const addComment = async (commentData) => {
     }
 };
 
-// Lấy bình luận theo product_id
+// Lấy bình luận theo product_id cùng tên và avatar người dùng
 const getCommentsByProduct = async (product_id) => {
     try {
         const [rows] = await pool.query(
-            'SELECT c.*, u.name AS user_name FROM comments c JOIN users u ON c.user_id = u.user_id WHERE c.product_id = ? ORDER BY c.created_at DESC',
+            `SELECT 
+                c.*, 
+                u.name AS user_name, 
+                u.avatar AS user_avatar 
+            FROM comments c 
+            JOIN users u ON c.user_id = u.user_id 
+            WHERE c.product_id = ? 
+            ORDER BY c.created_at DESC`,
             [product_id]
         );
         return rows;
@@ -26,6 +33,7 @@ const getCommentsByProduct = async (product_id) => {
         throw new Error('Không thể lấy bình luận: ' + error.message);
     }
 };
+
 
 // Xóa bình luận theo comment_id
 const deleteComment = async (comment_id) => {
