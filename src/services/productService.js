@@ -9,4 +9,16 @@ const getAllProducts = async () => {
   }
 };
 
-module.exports = { getAllProducts };
+const getProductById = async (id) => {
+  try {
+    const [results] = await pool.query("SELECT * FROM products WHERE product_id = ?", [id]);
+    if (results.length === 0) {
+      return null; 
+    }
+    return results[0];
+  } catch (error) {
+    throw new Error('Không thể lấy sản phẩm: ' + error.message);
+  }
+};
+
+module.exports = { getAllProducts,getProductById };
