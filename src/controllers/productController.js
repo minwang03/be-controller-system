@@ -1,4 +1,4 @@
-const { getAllProducts,getProductById } = require('../services/productService');
+const { getAllProducts, getProductById, searchProducts } = require('../services/productService');
 
 const getProducts = async (req, res) => {
   try {
@@ -22,4 +22,14 @@ const getProductId = async (req, res) => {
   }
 };
 
-module.exports = { getProducts,getProductId };
+const searchProductByName = async (req, res) => {
+  try {
+    const products = await searchProducts(req.query.q);
+    res.json({ success: true, data: products });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Lỗi server" });
+  }
+};
+
+
+module.exports = { getProducts, getProductId, searchProductByName };

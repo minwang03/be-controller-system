@@ -13,7 +13,7 @@ const getProductById = async (id) => {
   try {
     const [results] = await pool.query("SELECT * FROM products WHERE product_id = ?", [id]);
     if (results.length === 0) {
-      return null; 
+      return null;
     }
     return results[0];
   } catch (error) {
@@ -21,4 +21,12 @@ const getProductById = async (id) => {
   }
 };
 
-module.exports = { getAllProducts,getProductById };
+const searchProducts = async (query) => {
+  const [results] = await pool.query(
+    "SELECT * FROM products WHERE name LIKE ?",
+    [`%${query}%`]
+  );
+  return results;
+};
+
+module.exports = { getAllProducts, getProductById, searchProducts };
