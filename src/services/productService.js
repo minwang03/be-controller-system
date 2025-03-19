@@ -29,4 +29,33 @@ const searchProducts = async (query) => {
   return results;
 };
 
-module.exports = { getAllProducts, getProductById, searchProducts };
+const createProduct = async (name, description, price, stock_quantity, category_id, image) => {
+  try {
+    const [result] = await pool.query(
+      "INSERT INTO products (name, description, price, stock_quantity, category_id, image) VALUES (?, ?, ?, ?, ?, ?)",
+      [name, description, price, stock_quantity, category_id, image]
+    );
+    return { product_id: result.insertId, name, description, price, stock_quantity, category_id, image };
+  } catch (error) {
+    throw new Error('Không thể tạo sản phẩm: ' + error.message);
+  }
+};
+
+const updateProduct = async (id, productData) => {
+  const { name, description, price, stock_quantity, category_id, image } = productData;
+
+  const [result] = await pool.query(
+    "UPDATE products SET name=?, description=?, price=?, stock_quantity=?, category_id=?, image=? WHERE product_id=?",
+    [name, description, price, stock_quantity, category_id, image, id]
+  );
+
+  if (result.affectedRows === 0) {
+    throw new Error("Không thể cập nhật sản phẩm hoặc sản phẩm không tồn tại.");
+  }
+
+  return { id, ...productData };
+};
+
+module.exports = { getAllProducts, getProductById, searchProducts, createProduct, updateProduct };
+
+

@@ -1,4 +1,4 @@
-const { getAllProducts, getProductById, searchProducts } = require('../services/productService');
+const { getAllProducts, getProductById, searchProducts, createProduct, updateProduct } = require('../services/productService');
 
 const getProducts = async (req, res) => {
   try {
@@ -31,5 +31,38 @@ const searchProductByName = async (req, res) => {
   }
 };
 
+const createNewProduct = async (req, res) => {
+  const { name, description, price, stock_quantity, category_id, image } = req.body;
 
-module.exports = { getProducts, getProductId, searchProductByName };
+  if (!name || !price || !stock_quantity) {
+    return res.status(400).json({ success: false, message: "Tên, giá và số lượng tồn kho là bắt buộc." });
+  }
+
+  try {
+    const newProduct = await createProduct(name, description, price, stock_quantity, category_id, image);
+    res.status(201).json({ success: true, data: newProduct });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Không thể tạo sản phẩm.", error: error.message });
+  }
+};
+
+const updateProductById = async (req, res) => {
+  const { id } = req.params;
+  const { name, description, price, stock_quantity, category_id, image } = req.body;
+
+  try {
+    const existingProduct = await getProductById(id);
+    if (!existingProduct) {
+      return res.status(404).json({ success: false, message: "Không tìm thấy sản phẩm." });
+    }
+
+    const updatedProduct = await updateProduct(id, { name, description, price, stock_quantity, category_id, image });
+
+    res.json({ success: true, message: "Cập nhật sản phẩm thành công.", data: updatedProduct });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Không thể cập nhật sản phẩm.", error: error.message });
+  }
+};
+
+
+module.exports = { getProducts, getProductId, searchProductByName, createNewProduct, updateProductById };
