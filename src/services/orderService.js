@@ -48,4 +48,17 @@ const getOrdersByUserId = async (userId) => {
   }
 };
 
-module.exports = { createOrder, getOrdersByUserId };
+const getOrderDetailsByOrderId = async (orderId) => {
+  const [orderDetails] = await pool.query(
+    `SELECT od.order_detail_id, od.order_id, 
+            p.product_id, p.name AS product_name, 
+            od.quantity, od.unit_price, od.subtotal
+     FROM order_details od
+     JOIN products p ON od.product_id = p.product_id
+     WHERE od.order_id = ?`,
+    [orderId]
+  );
+  return orderDetails;
+};
+
+module.exports = { createOrder, getOrdersByUserId, getOrderDetailsByOrderId };
