@@ -1,4 +1,4 @@
-const { createOrder } = require("../services/orderService");
+const { createOrder, getOrdersByUserId } = require("../services/orderService");
 
 const createOrderController = async (req, res) => {
   try {
@@ -14,4 +14,19 @@ const createOrderController = async (req, res) => {
   }
 };
 
-module.exports = { createOrderController };
+const getOrdersController = async (req, res) => {
+  const { userId } = req.params;
+
+  if (!userId) {
+    return res.status(400).json({ message: 'Thiếu userId' });
+  }
+
+  try {
+    const orders = await getOrdersByUserId(userId);
+    res.status(200).json({success: true, data: orders});
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { createOrderController, getOrdersController };

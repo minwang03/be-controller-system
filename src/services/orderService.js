@@ -36,4 +36,16 @@ const createOrder = async (userId, cartItems) => {
   }
 };
 
-module.exports = { createOrder };
+const getOrdersByUserId = async (userId) => {
+  try {
+    const [rows] = await pool.query(
+      'SELECT * FROM orders WHERE user_id = ? ORDER BY order_date DESC',
+      [userId]
+    );
+    return rows;
+  } catch (error) {
+    throw new Error('Không thể lấy đơn hàng: ' + error.message);
+  }
+};
+
+module.exports = { createOrder, getOrdersByUserId };
