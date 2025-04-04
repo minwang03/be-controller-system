@@ -80,4 +80,42 @@ const getOrderDetailsByOrderId = async (orderId) => {
   return orderDetails;
 };
 
-module.exports = { createOrder, getOrdersByUserId, getOrderDetailsByOrderId };
+const getAllOrdersSorted = async () => {
+  try {
+    // 1. Lấy toàn bộ đơn hàng
+    const [orders] = await pool.query(`
+      SELECT o.*, u.name AS user_name, u.email
+      FROM orders o
+      JOIN users u ON o.user_id = u.user_id
+    `);
+
+    // 2. Lấy toàn bộ chi tiết đơn hàng và thông tin sản phẩm
+    const [details] = await pool.query(`
+      SELECT od.*, 
+             p.name AS product_name, 
+             p.image AS product_image,
+             p.price AS product_price
+      FROM order_details od
+      JOIN products p ON od.product_id = p.product_id
+    `);
+
+    // 3. Gắn chi tiết sản phẩm vào từng đơn hàng
+    for (const order of orders) {
+      order.details = details.filter(d => d.order_id === order.order_id);
+    }
+
+    // 4. Sắp xếp: theo trạng thái → rồi thời gian tạo mới nhất
+    const statusOrder = ['pending', 'processing', 'shipped', 'delivered', 'canceled'];
+    orders.sort((a, b) => {
+      const statusDiff = statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status);
+      if (statusDiff !== 0) return statusDiff;
+      return new Date(b.order_date) - new Date(a.order_date);
+    });
+
+    return orders;
+  } catch (error) {
+    throw new Error("Không thể lấy danh sách đơn hàng: " + error.message);
+  }
+};
+
+module.exports = { createOrder, getOrdersByUserId, getOrderDetailsByOrderId, getAllOrdersSorted};
