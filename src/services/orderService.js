@@ -38,15 +38,34 @@ const createOrder = async (userId, cartItems) => {
 
 const getOrdersByUserId = async (userId) => {
   try {
-    const [rows] = await pool.query(
+    // Lấy tất cả đơn hàng theo user_id
+    const [orders] = await pool.query(
       'SELECT * FROM orders WHERE user_id = ? ORDER BY order_date DESC',
       [userId]
     );
-    return rows;
+
+    // Lặp qua từng đơn hàng để lấy chi tiết
+    for (const order of orders) {
+      const [details] = await pool.query(
+        `SELECT od.order_detail_id, od.order_id,
+                p.product_id, p.name AS product_name, p.image,
+                od.quantity, od.unit_price, od.subtotal
+         FROM order_details od
+         JOIN products p ON od.product_id = p.product_id
+         WHERE od.order_id = ?`,
+        [order.order_id]
+      );
+
+      // Gắn chi tiết vào đơn hàng
+      order.items = details;
+    }
+
+    return orders;
   } catch (error) {
     throw new Error('Không thể lấy đơn hàng: ' + error.message);
   }
 };
+
 
 const getOrderDetailsByOrderId = async (orderId) => {
   const [orderDetails] = await pool.query(
