@@ -43,4 +43,23 @@ const deleteCategoryFromDB = async (category_id) => {
   }
 };
 
-module.exports = { getAllCategories, createCategoryInDB, deleteCategoryFromDB };
+// Update category in database
+const updateCategoryInDB = async (category_id, { name, description }) => {
+  try {
+    const [result] = await pool.query(
+      "UPDATE categories SET name = ?, description = ? WHERE category_id = ?", 
+      [name, description, category_id]
+    );
+
+    if (result.affectedRows === 0) {
+      return null;  // No category was updated (i.e., no category found with the given ID)
+    }
+
+    return { category_id, name, description };
+  } catch (error) {
+    throw new Error('Không thể cập nhật danh mục sản phẩm: ' + error.message);
+  }
+};
+
+
+module.exports = { getAllCategories, createCategoryInDB, deleteCategoryFromDB, updateCategoryInDB };

@@ -1,4 +1,4 @@
-const { getAllCategories, createCategoryInDB, deleteCategoryFromDB } = require('../services/categoryService');
+const { getAllCategories, createCategoryInDB, deleteCategoryFromDB,updateCategoryInDB } = require('../services/categoryService');
 
 const getCategory = async (req, res) => {
   try {
@@ -45,4 +45,25 @@ const deleteCategory = async (req, res) => {
   }
 };
 
-module.exports = { getCategory, createCategory, deleteCategory };
+// Update category
+const updateCategory = async (req, res) => {
+  const { category_id } = req.params;
+  const { name, description } = req.body;
+
+  if (!name) {
+    return res.status(400).json({ message: 'Tên danh mục là bắt buộc.' });
+  }
+
+  try {
+    const updatedCategory = await updateCategoryInDB(category_id, { name, description });
+    if (updatedCategory) {
+      res.json({ success: true, data: updatedCategory });
+    } else {
+      res.status(404).json({ message: 'Danh mục không tìm thấy' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Lỗi khi cập nhật danh mục sản phẩm', error: error.message });
+  }
+};
+
+module.exports = { getCategory, createCategory, deleteCategory,updateCategory };
