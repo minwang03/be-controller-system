@@ -41,6 +41,20 @@ const createProduct = async (name, description, price, stock_quantity, category_
   }
 };
 
+const deleteProduct = async (id) => {
+  try {
+    const [result] = await pool.query("DELETE FROM products WHERE product_id = ?", [id]);
+
+    if (result.affectedRows === 0) {
+      throw new Error("Không thể xóa sản phẩm hoặc sản phẩm không tồn tại.");
+    }
+
+    return { success: true, message: "Xóa sản phẩm thành công." };
+  } catch (error) {
+    throw new Error("Không thể xóa sản phẩm: " + error.message);
+  }
+};
+
 const updateProduct = async (id, productData) => {
   const { name, description, price, stock_quantity, category_id, image } = productData;
 
@@ -56,6 +70,6 @@ const updateProduct = async (id, productData) => {
   return { id, ...productData };
 };
 
-module.exports = { getAllProducts, getProductById, searchProducts, createProduct, updateProduct };
+module.exports = { getAllProducts, getProductById, searchProducts, createProduct,deleteProduct, updateProduct };
 
 

@@ -1,4 +1,4 @@
-const { getAllProducts, getProductById, searchProducts, createProduct, updateProduct } = require('../services/productService');
+const { getAllProducts, getProductById, searchProducts, createProduct,deleteProduct, updateProduct } = require('../services/productService');
 
 const getProducts = async (req, res) => {
   try {
@@ -46,6 +46,22 @@ const createNewProduct = async (req, res) => {
   }
 };
 
+const deleteProductById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const existingProduct = await getProductById(id);
+    if (!existingProduct) {
+      return res.status(404).json({ success: false, message: "Không tìm thấy sản phẩm." });
+    }
+
+    await deleteProduct(id);
+    res.json({ success: true, message: "Xóa sản phẩm thành công." });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Không thể xóa sản phẩm.", error: error.message });
+  }
+};
+
 const updateProductById = async (req, res) => {
   const { id } = req.params;
   const { name, description, price, stock_quantity, category_id, image } = req.body;
@@ -65,4 +81,4 @@ const updateProductById = async (req, res) => {
 };
 
 
-module.exports = { getProducts, getProductId, searchProductByName, createNewProduct, updateProductById };
+module.exports = { getProducts, getProductId, searchProductByName, createNewProduct,deleteProductById, updateProductById };
