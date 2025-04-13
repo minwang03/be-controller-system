@@ -118,4 +118,22 @@ const getAllOrdersSorted = async () => {
   }
 };
 
-module.exports = { createOrder, getOrdersByUserId, getOrderDetailsByOrderId, getAllOrdersSorted};
+const updateOrderStatusById = async (orderId, status) => {
+  const validStatuses = ['pending', 'processing', 'shipped', 'delivered', 'canceled'];
+  if (!validStatuses.includes(status)) {
+    throw new Error("Trạng thái không hợp lệ!");
+  }
+
+  try {
+    const [result] = await pool.query(
+      `UPDATE orders SET status = ? WHERE order_id = ?`,
+      [status, orderId]
+    );
+
+    return result.affectedRows > 0; // Trả về true nếu update thành công
+  } catch (error) {
+    throw new Error("Không thể cập nhật trạng thái: " + error.message);
+  }
+};
+
+module.exports = { createOrder, getOrdersByUserId, getOrderDetailsByOrderId, getAllOrdersSorted, updateOrderStatusById};

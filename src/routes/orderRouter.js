@@ -15,4 +15,7 @@ router.get("/orders/all", orderController.getAllOrdersSortedController);
 // Route lấy chi tiết hóa đơn theo order_id
 router.get('/orders/detail/:orderId', orderController.getOrderDetailsController);
 
+// Route cập nhật status theo order_id
+router.put("/orders/:orderId/status", orderController.updateOrderStatusController);
+
 module.exports = router;

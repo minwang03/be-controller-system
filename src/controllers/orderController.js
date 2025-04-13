@@ -1,4 +1,4 @@
-const { createOrder, getOrdersByUserId, getOrderDetailsByOrderId, getAllOrdersSorted } = require("../services/orderService");
+const { createOrder, getOrdersByUserId, getOrderDetailsByOrderId, getAllOrdersSorted,updateOrderStatusById } = require("../services/orderService");
 
 const createOrderController = async (req, res) => {
   try {
@@ -52,4 +52,24 @@ const getAllOrdersSortedController = async (req, res) => {
   }
 };
 
-module.exports = { createOrderController, getOrdersController, getOrderDetailsController, getAllOrdersSortedController};
+const updateOrderStatusController = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    const { status } = req.body;
+
+    if (!status) {
+      return res.status(400).json({ success: false, message: "Thiếu trạng thái mới!" });
+    }
+
+    const updated = await updateOrderStatusById(orderId, status);
+    if (updated) {
+      res.json({ success: true, message: "Cập nhật trạng thái thành công!" });
+    } else {
+      res.status(404).json({ success: false, message: "Không tìm thấy đơn hàng!" });
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+module.exports = { createOrderController, getOrdersController, getOrderDetailsController, getAllOrdersSortedController, updateOrderStatusController};
