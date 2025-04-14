@@ -26,4 +26,15 @@ const loginUserController = async (req, res) => {
   }
 };
 
-module.exports = { addUserController,loginUserController };
+// Lấy danh sách tất cả người dùng
+const getAllUsersController = async (req, res) => {
+  try {
+    const users = await userService.getAllUsers();
+    res.status(200).json({ message: 'Lấy danh sách người dùng thành công!', data: users });
+  } catch (error) {
+    console.error('Lỗi khi lấy danh sách người dùng:', error);
+    res.status(500).json({ message: 'Lỗi server', error: error.message });
+  }
+};
+
+module.exports = { addUserController,loginUserController, getAllUsersController };

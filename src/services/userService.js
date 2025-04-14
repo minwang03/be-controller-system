@@ -24,4 +24,14 @@ const getUserByEmailAndPassword = async (email, password) => {
   }
 };
 
-module.exports = { addUser,getUserByEmailAndPassword };
+// Lấy danh sách tất cả người dùng
+const getAllUsers = async () => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM users');
+    return rows;
+  } catch (error) {
+    throw new Error('Không thể lấy danh sách người dùng: ' + error.message);
+  }
+};
+
+module.exports = { addUser,getUserByEmailAndPassword, getAllUsers };
