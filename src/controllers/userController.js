@@ -20,7 +20,7 @@ const loginUserController = async (req, res) => {
     if (!user) {
       return res.status(401).json({ message: 'Email hoặc mật khẩu không đúng' });
     }
-    res.status(200).json({ message: 'Đăng nhập thành công!', user });
+    res.status(200).json({ message: 'Đăng nhập thành công!', data: user });
   } catch (error) {
     res.status(500).json({ message: 'Lỗi server', error: error.message });
   }
