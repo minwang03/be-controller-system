@@ -1,4 +1,4 @@
-const { createOrder, getOrdersByUserId, getOrderDetailsByOrderId, getAllOrdersSorted,updateOrderStatusById, createPaymentIntent } = require("../services/orderService");
+const { createOrder, getOrdersByUserId, getOrderDetailsByOrderId, getAllOrdersSorted,updateOrderStatusById } = require("../services/orderService");
 
 const createOrderController = async (req, res) => {
   try {
