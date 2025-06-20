@@ -34,4 +34,17 @@ const getAllUsers = async () => {
   }
 };
 
-module.exports = { addUser,getUserByEmailAndPassword, getAllUsers };
+const getUserByEmail = async (email) => {
+  try {
+    const [rows] = await pool.query(
+      'SELECT * FROM users WHERE email = ?',
+      [email]
+    );
+    return rows[0];
+  } catch (error) {
+    throw new Error('Không thể tìm người dùng bằng email: ' + error.message);
+  }
+};
+
+
+module.exports = { addUser,getUserByEmailAndPassword, getAllUsers, getUserByEmail };

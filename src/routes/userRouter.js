@@ -11,4 +11,7 @@ router.post('/users/login', userController.loginUserController);
 
 router.get('/users', userController.getAllUsersController);
 
+// Đăng nhập bằng google
+router.post('/users/login-google', userController.loginWithGoogleController);
+
 module.exports = router;

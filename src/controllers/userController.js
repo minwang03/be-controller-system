@@ -37,4 +37,35 @@ const getAllUsersController = async (req, res) => {
   }
 };
 
-module.exports = { addUserController,loginUserController, getAllUsersController };
+const loginWithGoogleController = async (req, res) => {
+  const { email, name } = req.body;
+
+  if (!email || !name) {
+    return res.status(400).json({ message: 'Thiếu email hoặc name từ Google' });
+  }
+
+  try {
+    let user = await userService.getUserByEmail(email);
+
+    if (!user) {
+      const newUser = {
+        name,
+        email,
+        password: '',      
+        phone: '',
+        address: '',
+        role: 'user',      
+      };
+      await userService.addUser(newUser);
+      user = await userService.getUserByEmail(email); 
+    }
+
+    return res.status(200).json({ message: 'Đăng nhập Google thành công!', data: user });
+  } catch (error) {
+    console.error('Lỗi Google login:', error);
+    res.status(500).json({ message: 'Lỗi server', error: error.message });
+  }
+};
+
+
+module.exports = { addUserController,loginUserController, getAllUsersController, loginWithGoogleController};
