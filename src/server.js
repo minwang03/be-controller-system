@@ -25,19 +25,33 @@ io.on('connection', (socket) => {
     console.log(`Socket ${socket.id} joined room ${room}`);
   });
 
-  socket.on('sendMessage', async (data) => {
-    const { sender_id, room, message } = data;
+    socket.on('sendMessage', async (data) => {
+      const { sender_id, room, message } = data;
 
-    // Phát lại tin nhắn cho các client trong room
-    io.to(room).emit('newMessage', data);
+      try {
+        // 1. Lấy thông tin người gửi từ DB (bạn cần có hàm lấy user)
+        const user = await messageService.getUserById(sender_id);
 
-    // Lưu tin nhắn vào database
-    try {
-      await messageService.saveMessage({ sender_id, room, message });
-    } catch (error) {
-      console.error('Lỗi lưu tin nhắn:', error.message);
-    }
-  });
+        // 2. Thêm name vào object gửi lại
+        const fullMessage = {
+          sender_id,
+          room,
+          message,
+          name: user.name,  
+          avatar: user.avatar || null, 
+          created_at: new Date().toISOString() 
+        };
+
+        // 3. Emit lại cho client khác
+        io.to(room).emit('newMessage', fullMessage);
+
+        // 4. Lưu vào DB
+        await messageService.saveMessage(fullMessage);
+      } catch (error) {
+        console.error('Lỗi khi gửi tin nhắn:', error.message);
+      }
+    });
+
 
   socket.on('disconnect', () => {
     console.log('User disconnected:', socket.id);

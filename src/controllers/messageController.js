@@ -3,7 +3,7 @@ const messageService = require('../services/messageService');
 // Lấy tin nhắn giữa 2 người (chat riêng)
 const getPrivateMessages = async (req, res) => {
   const { user1, user2 } = req.params;
-  const room = [user1, user2].sort().join('_');
+  const room = [Number(user1), Number(user2)].sort((a, b) => a - b).join('_');
 
   try {
     const messages = await messageService.getMessagesByRoom(room);
@@ -23,8 +23,20 @@ const sendMessage = async (req, res) => {
   }
 
   try {
-    const result = await messageService.saveMessage({ sender_id, room, message });
-    res.status(200).json({ message: 'Đã gửi', data: result });
+    const user = await messageService.getUserById(sender_id); // 💡 bạn cần thêm hàm này nếu chưa có
+
+    const fullMessage = {
+      sender_id,
+      room,
+      message,
+      name: user.name,
+      avatar: user.avatar || null,
+      created_at: new Date().toISOString()
+    };
+
+    await messageService.saveMessage(fullMessage);
+
+    res.status(200).json({ message: 'Đã gửi', data: fullMessage });
   } catch (error) {
     res.status(500).json({ message: 'Lỗi server', error: error.message });
   }

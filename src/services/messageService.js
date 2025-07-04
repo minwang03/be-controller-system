@@ -9,6 +9,11 @@ const saveMessage = async ({ sender_id, room, message }) => {
   return result;
 };
 
+const getUserById = async (user_id) => {
+  const [rows] = await pool.query('SELECT name, avatar FROM users WHERE user_id = ?', [user_id]);
+  return rows[0]; // hoặc throw nếu không tìm thấy
+};
+
 // Lấy tất cả tin nhắn theo room
 const getMessagesByRoom = async (room) => {
   const [rows] = await pool.query(
@@ -20,4 +25,4 @@ const getMessagesByRoom = async (room) => {
   return rows;
 };
 
-module.exports = { saveMessage, getMessagesByRoom };
+module.exports = { saveMessage, getMessagesByRoom, getUserById };
