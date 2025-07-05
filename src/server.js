@@ -25,39 +25,56 @@ io.on('connection', (socket) => {
     console.log(`Socket ${socket.id} joined room ${room}`);
   });
 
-    socket.on('sendMessage', async (data) => {
-      const { sender_id, room, message } = data;
+  socket.on('sendMessage', async (data) => {
+    console.log('Received sendMessage data:', data);  
 
-      try {
-        // 1. Lấy thông tin người gửi từ DB (bạn cần có hàm lấy user)
-        const user = await messageService.getUserById(sender_id);
+    const { sender_id, room, message } = data || {};
 
-        // 2. Thêm name vào object gửi lại
-        const fullMessage = {
-          sender_id,
-          room,
-          message,
-          name: user.name,  
-          avatar: user.avatar || null, 
-          created_at: new Date().toISOString() 
-        };
+    if (!sender_id) {
+      console.error('sender_id missing in sendMessage data!');
+      socket.emit('errorMessage', { message: 'sender_id is required' });
+      return;
+    }
+    if (!room) {
+      console.error('room missing in sendMessage data!');
+      socket.emit('errorMessage', { message: 'room is required' });
+      return;
+    }
+    if (!message) {
+      console.error('message missing in sendMessage data!');
+      socket.emit('errorMessage', { message: 'message content is required' });
+      return;
+    }
 
-        // 3. Emit lại cho client khác
-        io.to(room).emit('newMessage', fullMessage);
-
-        // 4. Lưu vào DB
-        await messageService.saveMessage(fullMessage);
-      } catch (error) {
-        console.error('Lỗi khi gửi tin nhắn:', error.message);
+    try {
+      const user = await messageService.getUserById(sender_id);
+      if (!user) {
+        console.error('User không tồn tại với id:', sender_id);
+        socket.emit('errorMessage', { message: `User not found with id: ${sender_id}` });
+        return;
       }
-    });
 
+      const fullMessage = {
+        sender_id,
+        room,
+        message,
+        name: user.name,
+        avatar: user.avatar || null,
+        created_at: new Date().toISOString(),
+      };
+
+      io.to(room).emit('newMessage', fullMessage);
+
+    } catch (error) {
+      console.error('Lỗi khi gửi tin nhắn:', error.message);
+      socket.emit('errorMessage', { message: 'Internal server error' });
+    }
+  });
 
   socket.on('disconnect', () => {
     console.log('User disconnected:', socket.id);
   });
 });
-
 
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
