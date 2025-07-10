@@ -67,5 +67,14 @@ const loginWithGoogleController = async (req, res) => {
   }
 };
 
+const deleteUserController = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await userService.deleteUser(id);
+    res.status(200).json({ message: 'Xóa người dùng thành công' });
+  } catch (error) {
+    res.status(500).json({ message: 'Lỗi server', error: error.message });
+  }
+};
 
-module.exports = { addUserController,loginUserController, getAllUsersController, loginWithGoogleController};
+module.exports = { addUserController, loginUserController, getAllUsersController, loginWithGoogleController, deleteUserController};

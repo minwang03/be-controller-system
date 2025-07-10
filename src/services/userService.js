@@ -46,5 +46,16 @@ const getUserByEmail = async (email) => {
   }
 };
 
+const deleteUser = async (userId) => {
+  try {
+    const [result] = await pool.query(
+      'DELETE FROM users WHERE user_id = ?',
+      [userId]
+    );
+    return result;
+  } catch (error) {
+    throw new Error('Không thể xoá người dùng: ' + error.message);
+  }
+};
 
-module.exports = { addUser,getUserByEmailAndPassword, getAllUsers, getUserByEmail };
+module.exports = { addUser,getUserByEmailAndPassword, getAllUsers, getUserByEmail, deleteUser };

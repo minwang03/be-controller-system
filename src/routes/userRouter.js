@@ -14,4 +14,6 @@ router.get('/users', userController.getAllUsersController);
 // Đăng nhập bằng google
 router.post('/users/login-google', userController.loginWithGoogleController);
 
+router.delete('/users/:id', userController.deleteUserController);
+
 module.exports = router;
