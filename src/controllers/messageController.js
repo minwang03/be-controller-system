@@ -23,7 +23,7 @@ const sendMessage = async (req, res) => {
   }
 
   try {
-    const user = await messageService.getUserById(sender_id); // 💡 bạn cần thêm hàm này nếu chưa có
+    const user = await messageService.getUserById(sender_id); 
 
     const fullMessage = {
       sender_id,

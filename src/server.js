@@ -6,10 +6,8 @@ const messageService = require('./services/messageService');
 
 const PORT = process.env.PORT || 3001;
 
-// Tạo http server từ app
 const server = http.createServer(app);
 
-// Khởi tạo socket.io với http server
 const io = new Server(server, {
   cors: {
     origin: '*', 
@@ -54,13 +52,17 @@ io.on('connection', (socket) => {
         return;
       }
 
+      const created_at = new Date().toISOString(); 
+
+      await messageService.saveMessage({ sender_id, room, message });
+
       const fullMessage = {
         sender_id,
         room,
         message,
         name: user.name,
         avatar: user.avatar || null,
-        created_at: new Date().toISOString(),
+        created_at,
       };
 
       io.to(room).emit('newMessage', fullMessage);
