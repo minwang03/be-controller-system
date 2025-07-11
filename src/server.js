@@ -4,7 +4,7 @@ const app = require('./app');
 const { Server } = require('socket.io'); 
 const messageService = require('./services/messageService'); 
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 
 const server = http.createServer(app);
 
@@ -78,6 +78,6 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server is running on http://0.0.0.0:${PORT}`);
 });
