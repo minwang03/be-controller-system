@@ -58,4 +58,16 @@ const deleteUser = async (userId) => {
   }
 };
 
-module.exports = { addUser,getUserByEmailAndPassword, getAllUsers, getUserByEmail, deleteUser };
+const updatePassword = async (email, newPassword) => {
+  try {
+    const [result] = await pool.query(
+      'UPDATE users SET password = ?, updated_at = NOW() WHERE email = ?',
+      [newPassword, email]
+    );
+    return result;
+  } catch (error) {
+    throw new Error('Không thể cập nhật mật khẩu: ' + error.message);
+  }
+};
+
+module.exports = { addUser,getUserByEmailAndPassword, getAllUsers, getUserByEmail, deleteUser, updatePassword,};
