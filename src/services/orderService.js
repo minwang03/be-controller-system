@@ -1,38 +1,73 @@
 const { pool } = require("../config/db");
+const Stripe = require('stripe');
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
-// Tạo đơn hàng mới và lưu chi tiết đơn hàng
+const calculateTotalPrice = (cartItems) => {
+  return cartItems.reduce((sum, item) => sum + item.quantity * item.unit_price, 0);
+};
+
+const insertOrder = async (connection, userId, totalPrice) => {
+  const [orderResult] = await connection.query(
+    "INSERT INTO orders (user_id, total_price, status) VALUES (?, ?, 'pending')",
+    [userId, totalPrice]
+  );
+  return orderResult.insertId;
+};
+
+const insertOrderDetails = async (connection, orderId, cartItems) => {
+  for (const item of cartItems) {
+    await connection.query(
+      "INSERT INTO order_details (order_id, product_id, quantity, unit_price) VALUES (?, ?, ?, ?)",
+      [orderId, item.product_id, item.quantity, item.unit_price]
+    );
+  }
+};
+
+const createPaymentIntent = async (totalPrice) => {
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: totalPrice,
+      currency: 'vnd',
+      automatic_payment_methods: { enabled: true },
+    });
+
+    return {
+      clientSecret: paymentIntent.client_secret,
+      amount: totalPrice,
+      message: "Đã tạo PaymentIntent thành công",
+    };
+  } catch (error) {
+    throw new Error("Stripe error: " + error.message);
+  }
+};
+
 const createOrder = async (userId, cartItems) => {
   if (!cartItems || cartItems.length === 0) {
     throw new Error("Giỏ hàng trống!");
   }
 
+  const connection = await pool.getConnection();
   try {
-    const connection = await pool.getConnection();
     await connection.beginTransaction();
 
-    const totalPrice = cartItems.reduce((sum, item) => sum + item.quantity * item.unit_price, 0);
+    const totalPrice = calculateTotalPrice(cartItems);
+    const orderId = await insertOrder(connection, userId, totalPrice);
+    await insertOrderDetails(connection, orderId, cartItems);
 
-    // Thêm đơn hàng vào bảng orders
-    const [orderResult] = await connection.query(
-      "INSERT INTO orders (user_id, total_price, status) VALUES (?, ?, 'pending')",
-      [userId, totalPrice]
-    );
-    const orderId = orderResult.insertId;
-
-    // Thêm từng sản phẩm vào bảng order_details
-    for (const item of cartItems) {
-      await connection.query(
-        "INSERT INTO order_details (order_id, product_id, quantity, unit_price) VALUES (?, ?, ?, ?)",
-        [orderId, item.product_id, item.quantity, item.unit_price]
-      );
-    }
+    const paymentIntentResult = await createPaymentIntent(totalPrice);
 
     await connection.commit();
-    connection.release();
 
-    return { success: true, orderId, message: "Thanh toán thành công!" };
+    return {
+      success: true,
+      orderId,
+      ...paymentIntentResult, 
+    };
   } catch (error) {
-    throw new Error("Lỗi khi tạo đơn hàng: " + error.message);
+    await connection.rollback();
+    throw new Error("Lỗi khi tạo đơn hàng hoặc thanh toán: " + error.message);
+  } finally {
+    connection.release();
   }
 };
 
@@ -65,7 +100,6 @@ const getOrdersByUserId = async (userId) => {
     throw new Error('Không thể lấy đơn hàng: ' + error.message);
   }
 };
-
 
 const getOrderDetailsByOrderId = async (orderId) => {
   const [orderDetails] = await pool.query(
@@ -136,4 +170,4 @@ const updateOrderStatusById = async (orderId, status) => {
   }
 };
 
-module.exports = { createOrder, getOrdersByUserId, getOrderDetailsByOrderId, getAllOrdersSorted, updateOrderStatusById};
+module.exports = { createOrder, getOrdersByUserId, getOrderDetailsByOrderId, getAllOrdersSorted, updateOrderStatusById, createPaymentIntent};

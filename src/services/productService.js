@@ -23,8 +23,8 @@ const getProductById = async (id) => {
 
 const searchProducts = async (query) => {
   const [results] = await pool.query(
-    "SELECT * FROM products WHERE name LIKE ?",
-    [`%${query}%`]
+    "SELECT * FROM products WHERE LOWER(name) LIKE ?",
+    [`%${query.toLowerCase()}%`]
   );
   return results;
 };

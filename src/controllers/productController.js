@@ -24,12 +24,25 @@ const getProductId = async (req, res) => {
 
 const searchProductByName = async (req, res) => {
   try {
-    const products = await searchProducts(req.query.q);
+    const keyword = req.query.q;
+
+    if (!keyword || keyword.trim() === '') {
+      return res.status(400).json({
+        success: false,
+        message: "Thiếu từ khóa tìm kiếm",
+      });
+    }
+
+    console.log("Tìm kiếm sản phẩm với từ khóa:", keyword);
+
+    const products = await searchProducts(keyword);
     res.json({ success: true, data: products });
   } catch (error) {
+    console.error("Lỗi tìm kiếm:", error);
     res.status(500).json({ success: false, message: "Lỗi server" });
   }
 };
+
 
 const createNewProduct = async (req, res) => {
   const { name, description, price, stock_quantity, category_id, image } = req.body;

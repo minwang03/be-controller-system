@@ -3,14 +3,24 @@ const { createOrder, getOrdersByUserId, getOrderDetailsByOrderId, getAllOrdersSo
 const createOrderController = async (req, res) => {
   try {
     const { user_id, cartItems } = req.body;
-    if (!user_id || !cartItems) {
-      return res.status(400).json({ success: false, message: "Thiếu dữ liệu đầu vào!" });
+    if (!user_id || !cartItems || cartItems.length === 0) {
+      return res.status(400).json({ success: false, message: "Thiếu dữ liệu đầu vào hoặc giỏ hàng trống!" });
     }
 
     const result = await createOrder(user_id, cartItems);
-    res.json(result);
+
+  return res.status(200).json({
+    success: true,
+    message: result.message,
+    data: {
+      orderId: result.orderId,
+      clientSecret: result.clientSecret,
+      amount: result.amount,
+    }
+  });
+
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 
